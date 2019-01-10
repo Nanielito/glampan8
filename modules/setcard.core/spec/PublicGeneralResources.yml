@@ -1,0 +1,199 @@
+swagger: '2.0'
+info:
+  description: 'SetCard Core Public General Resources'
+  version: '1.0.0'
+  title: 'SetCard Core Public General'
+  termsOfService: ''
+  contact:
+    name: 'Nanielito'
+    email: 'danielramirezvi@gmail.com'
+    url: 'https://github.com/Nanielito/glampan8'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: '/api/v1/public/general'
+schemes:
+  - 'http'
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+
+definitions:
+  
+  AccountTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['admin', 'adminApproval', 'adminCompany', 'adminBranchCompany', 'model']
+  
+  AdmissionStatusTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['inEvaluation', 'approved', 'nonApproved']
+    
+  EntityTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['company', 'branchCompany']
+    
+  GenderTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['female', 'male']
+    
+  PlanTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['trial', 'basic', 'professional']
+
+  StatusTypes:
+    type: 'array'
+    items:
+      type: 'string'
+    example: ['enabled', 'disabled']
+
+paths:
+
+  /ping:
+    get:
+      description: 'Sends a ping test to server'
+      operationId: 'publicGeneralPingTest'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Test'
+      responses:
+        200:
+          description: 'Ping test was successfull'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+  
+  /accountTypes:
+    get:
+      description: 'Gets the account types list'
+      operationId: 'publicGeneralGetAccountTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Account Types'
+      responses:
+        200:
+          description: 'Account types retrieved successfully'
+          schema:
+            $ref: '#/definitions/AccountTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+  
+  /admissionStatusTypes:
+    get:
+      description: 'Gets the admission status types list'
+      operationId: 'publicGeneralGetAdmissionStatusTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Admission Status Types'
+      responses:
+        200:
+          description: 'Admission status types retrieved successfully'
+          schema:
+            $ref: '#/definitions/AdmissionStatusTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+          
+  /entityTypes:
+    get:
+      description: 'Gets the entity types list'
+      operationId: 'publicGeneralGetEntityTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Entity Types'
+      responses:
+        200:
+          description: 'Entity types retrieved successfully'
+          schema:
+            $ref: '#/definitions/EntityTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+          
+  /genderTypes:
+    get:
+      description: 'Gets the gender types list'
+      operationId: 'publicGeneralGetGenderTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Gender Types'
+      responses:
+        200:
+          description: 'Gender types retrieved successfully'
+          schema:
+            $ref: '#/definitions/GenderTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+          
+  /planTypes:
+    get:
+      description: 'Gets the plan types list'
+      operationId: 'publicGeneralGetPlanTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Plan Types'
+      responses:
+        200:
+          description: 'Plan types retrieved successfully'
+          schema:
+            $ref: '#/definitions/PlanTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+          
+  /statusTypes:
+    get:
+      description: 'Gets the status types list'
+      operationId: 'publicGeneralGetStatusTypes'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Status Types'
+      responses:
+        200:
+          description: 'Status types retrieved successfully'
+          schema:
+            $ref: '#/definitions/StatusTypes'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'

@@ -1,0 +1,175 @@
+swagger: '2.0'
+info:
+  description: 'SetCard Core Public User Resources'
+  version: '1.0.0'
+  title: 'SetCard Core Public User'
+  termsOfService: ''
+  contact:
+    name: 'Nanielito'
+    email: 'danielramirezvi@gmail.com'
+    url: 'https://github.com/Nanielito/glampan8'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: '/api/v1/public/users'
+schemes:
+  - 'http'
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+
+definitions:
+  
+  AccountTypeOptions:
+    type: 'string'
+    enum: &ACCOUNT_TYPE_OPTIONS ['admin', 'adminApproval', 'adminCompany', 'adminBranchCompany', 'model']
+    example: 'model'
+  
+  PlanTypeOptions:
+    type: 'string'
+    enum: &PLAN_TYPE_OPTIONS ['trial', 'basic', 'professional']
+    example: 'trial'
+  
+  LoginForm:
+    type: 'object'
+    properties:
+      username:
+        type: 'string'
+        example: 'adminUser'
+      password:
+        type: 'string'
+        example: 'adminPassword'
+  
+  RegisterForm:
+    type: 'object'
+    properties:
+      username:
+        type: 'string'
+        example: 'userTest'
+      password:
+        type: 'string'
+        example: 'userTestPassword'
+      name:
+        type: 'string'
+        example: 'User'
+      lastName:
+        type: 'string'
+        example: 'Test'
+      email:
+        type: 'string'
+        example: 'userTest@setcard.io'
+      accountType:
+        $ref: '#/definitions/AccountTypeOptions'
+      planType:
+        $ref: '#/definitions/PlanTypeOptions'
+  
+  AuthenticationResponse:
+    type: 'object'
+    properties:
+      token:
+        type: 'string'
+        example: 'eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+  
+  AuthenticationErrorResponse:
+    type: 'object'
+    properties:
+      message:
+        type: 'string'
+        example: 'Invalid login and/or password'
+      token:
+        type: 'string'
+        example: null
+
+  RegisterErrorResponse:
+    type: 'object'
+    properties:
+      message:
+        type: 'string'
+        example: 'User had been previously registered'
+      token:
+        type: 'string'
+        example: null
+
+paths:
+
+  /ping:
+    get:
+      description: 'Sends a ping test to server'
+      operationId: 'publicUserPingTest'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Test'
+      responses:
+        200:
+          description: 'Ping test was successfull'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+  
+  /login:
+    post:
+      description: 'Creates a session user token'
+      operationId: 'publicUserLogin'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Login'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'The login form'
+          required: true
+          schema:
+            $ref: '#/definitions/LoginForm'
+      responses:
+        200:
+          description: 'Login success'
+          schema:
+            $ref: '#/definitions/AuthenticationResponse'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Login failed'
+          schema:
+            $ref: '#/definitions/AuthenticationErrorResponse'
+        500:
+          description: 'Internal server error'
+          
+  /register:
+    post:
+      description: 'Registers a user and creates a session user token'
+      operationId: 'publicUserRegister'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Register'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'The register form'
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterForm'
+      responses:
+        200:
+          description: 'Register success'
+          schema:
+            $ref: '#/definitions/AuthenticationResponse'
+        400:
+          description: 'Not found'
+        409:
+          description: 'Register failed'
+          schema:
+            $ref: '#/definitions/RegisterErrorResponse'
+        500:
+          description: 'Internal server error'

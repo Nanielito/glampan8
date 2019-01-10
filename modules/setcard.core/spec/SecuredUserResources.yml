@@ -1,0 +1,365 @@
+swagger: '2.0'
+info:
+  description: 'SetCard Core Secured User Resources'
+  version: '1.0.0'
+  title: 'SetCard Core Secured User'
+  termsOfService: ''
+  contact:
+    name: 'Nanielito'
+    email: 'danielramirezvi@gmail.com'
+    url: 'https://github.com/Nanielito/glampan8'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:8080'
+basePath: '/api/v1/users'
+schemes:
+  - 'http'
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+
+definitions:
+
+  AdmissionStatusTypeOptions:
+    type: 'string'
+    enum: &ADMISSION_STATUS_TYPE_OPTIONS ['inEvaluation', 'approved', 'nonApproved']
+    example: 'inEvaluation'
+  
+  PlanTypeOptions:
+    type: 'string'
+    enum: &PLAN_TYPE_OPTIONS ['trial', 'basic', 'professional']
+    example: 'trial'
+    
+  StatusTypeOptions:
+    type: 'string'
+    enum: &STATUS_TYPE_OPTIONS ['enabled', 'disabled']
+    example: 'enabled'
+    
+  AccountPlan:
+    type: 'object'
+    properties:
+      planType:
+        $ref: '#/definitions/PlanTypeOptions'
+      expirationDate:
+        type: 'string'
+        format: 'date'
+        example: '01/03/2019'
+  
+  AccountStatus:
+    type: 'object'
+    properties:
+      statusType:
+        $ref: '#/definitions/StatusTypeOptions'
+      expirationDate:
+        type: 'string'
+        format: 'date'
+        example: ''
+  
+  UserResponse:
+    type: 'object'
+    properties:
+      userId:
+        type: 'string'
+        example: '5c2cc4dc256e6465755d593d'
+      username:
+        type: 'string'
+        example: 'adminUser'
+      self:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current'
+            
+  AccountResponse:
+    type: 'object'
+    properties:
+      accountId:
+        type: 'string'
+        example: '5c2cc4dc256e6465755d593d'
+      name:
+        type: 'string'
+        example: 'User'
+      lastName:
+        type: 'string'
+        example: 'Test'
+      agency:
+        type: 'string'
+        example: 'Bat Models'
+      genderType:
+        type: 'string'
+        example: 'female'
+      birthDate:
+        type: 'string'
+        example: '01/05/1988'
+      nationality:
+        type: 'string'
+        example: 'Mexican'
+      webSite:
+        type: 'string'
+        example: ''
+      identifier:
+        type: 'string'
+        example: 'P-1234567'
+      accountType:
+        type: 'string'
+        example: 'model'
+      email:
+        type: 'string'
+        example: 'userTest@setcard.io'
+      phoneNumber:
+        type: 'string'
+        example: '1234567'
+      mobileNumber:
+        type: 'string'
+        example: '7654321'
+      facebook:
+        type: 'string'
+        example: 'userTest'
+      instagram:
+        type: 'string'
+        example: 'userTest'
+      snapchat:
+        type: 'string'
+        example: ''
+      twitter:
+        type: 'string'
+        example: 'userTest'
+      ranking:
+        type: 'number'
+        example: '4.9'
+      self:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current/account'
+      user:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current'
+      accountExtend:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current/accountExtend'
+            
+  AccountExtendResponse:
+    type: 'object'
+    properties:
+      accountId:
+        type: 'string'
+        example: '5c2cc4dc256e6465755d593d'
+      admissionStatusType:
+        $ref: '#/definitions/AdmissionStatusTypeOptions'
+      accountPlan:
+        $ref: '#/definitions/AccountPlan'
+      accountStatus:
+        $ref: '#/definitions/AccountStatus'
+      self:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current/accountExtend'
+      account:
+        type: 'object'
+        required:
+          - 'href'
+        properties:
+          href:
+            type: 'string'
+            example: 'http://localhost:8080/api/v1/users/current/account'
+  
+
+paths:
+
+  /ping:
+    get:
+      description: 'Sends a ping test to server'
+      operationId: 'securedUserPingTest'
+      consumes:
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Test'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'Ping test was successfull'
+        400:
+          description: 'Not found'
+        500:
+          description: 'Internal server error'
+  
+  /token:
+    get:
+      description: 'Validates a session token'
+      operationId: 'securedUserIsValidToken'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Token'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'Token is valid'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Unauthorized: Token is not valid'
+        500:
+          description: 'Internal server error'
+          
+  /current:
+    get:
+      description: 'Gets the current user'
+      operationId: 'securedUserGetCurrentUser'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'User'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'User retrieved successfully'
+          schema:
+            $ref: '#/definitions/UserResponse'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Unauthorized: Token is not valid'
+        500:
+          description: 'Internal server error'
+          
+  /current/account:
+    get:
+      description: 'Gets the current account'
+      operationId: 'securedUserGetCurrenAccount'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Account'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'Account retrieved successfully'
+          schema:
+            $ref: '#/definitions/AccountResponse'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Unauthorized: Token is not valid'
+        500:
+          description: 'Internal server error'
+          
+  /current/accountExtend:
+    get:
+      description: 'Gets the current account extend'
+      operationId: 'securedUserGetCurrentAccountExtend'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Account'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'Account extend retrieved successfully'
+          schema:
+            $ref: '#/definitions/AccountExtendResponse'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Unauthorized: Token is not valid'
+        500:
+          description: 'Internal server error'
+    
+  /logout:
+    get:
+      description: 'Finishes a session user'
+      operationId: 'securedUserLogout'
+      consumes: 
+        - 'application/json'
+      produces: 
+        - 'application/json'
+      tags:
+        - 'Logout'
+      parameters:
+        - in: 'header'
+          name: 'Authorization'
+          description: 'The session token'
+          required: true
+          schema:
+            type: 'string'
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJSKk4tSU4sSlHSUcpMLFGyMjQ1MTOxsDQxNNBRSq0ogAiYmptagARKi1OL8hJzU4Ha8hLzMlNzMkvylWoBEpXpqkoAAAA.flQIFeIsuRqJzUs-L3JEMJFJhrM0FYn0evPMS9z9k9s'
+      responses:
+        200:
+          description: 'Logout was successfull'
+          schema:
+            type: 'boolean'
+            example: 'true'
+        400:
+          description: 'Not found'
+        401:
+          description: 'Unauthorized: Token is not valid'
+        500:
+          description: 'Internal server error'
